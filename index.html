@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Universo de Flores Amarillas 🌻✨ | Experiencia 3D Cósmica</title>
+  <meta name="description"
+    content="Un universo mágico en 3D donde los planetas son flores amarillas, ramos y cartas con mensajes de amistad sincera, psicología y superación.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+
+  <script type="module" crossorigin src="./assets/index-DAi57a7g.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DZnSFyJC.css">
+</head>
+
+<body>
+  <!-- 3D Canvas -->
+  <canvas id="webgl"></canvas>
+
+  <!-- UI Overlay -->
+  <div id="ui-container">
+    <!-- Pantalla Inicial Limpia: Vista completa en la flor naciendo -->
+    <div id="clean-bloom-screen" class="clean-bloom-screen">
+      <div class="clean-bloom-bottom">
+        <p id="bloom-caption" class="bloom-caption">En la inmensidad del espacio, late una pequeña semilla...</p>
+        <button id="btn-start-bloom" class="clean-start-btn">
+          <span class="btn-bloom-icon">🌻</span>
+          <span class="btn-bloom-text">Toca para Hacer Florecer</span>
+        </button>
+      </div>
+
+      <button id="btn-skip-intro" class="skip-intro-btn">
+        <span>Saltar al universo ➜</span>
+      </button>
+    </div>
+
+    <!-- Apertura Circular Cinemática (Apertura de Escena) -->
+    <div id="iris-wipe" class="iris-wipe-container hidden">
+      <div id="iris-curtain" class="iris-curtain-mask"></div>
+      <div id="iris-ring" class="iris-portal-ring"></div>
+      <div id="iris-flash" class="iris-flash-veil"></div>
+    </div>
+
+    <!-- Top Header (oculto en la pantalla de inicio) -->
+    <header class="top-nav hud-element hidden-hud">
+      <div class="logo-badge">
+        <span class="sunflower-icon">🌻</span>
+        <div class="logo-text">
+          <h1>Flores Amarillas</h1>
+          <p class="tagline">Pa cuando mi pollito??</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div class="nav-actions">
+        <button id="btn-audio" class="glass-btn" title="Activar/Pausar Música">
+          <span class="btn-icon" id="audio-icon">🎵</span>
+          <span class="btn-text">Música</span>
+          <div class="audio-waves" id="audio-waves">
+            <span></span><span></span><span></span>
+          </div>
+        </button>
+
+        <button id="btn-tour" class="glass-btn highlight" title="Modo Recorrido Cinemático">
+          <span class="btn-icon">✨</span>
+          <span class="btn-text">Paseo Guiado</span>
+        </button>
+
+        <button id="btn-replay-bloom" class="glass-btn" title="Ver crecer el girasol desde la semilla">
+          <span class="btn-icon">🌱</span>
+          <span class="btn-text">Ver Florecer</span>
+        </button>
+
+        <button id="btn-reset-cam" class="glass-btn icon-only" title="Vista Panorámica del Universo">
+          <span class="btn-icon">🌌</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Bottom Exploration Hint Bar (oculto en la pantalla de inicio) -->
+    <footer class="bottom-bar hud-element hidden-hud">
+      <div class="hint-pill">
+        <span class="pulse-dot"></span>
+        <span id="hint-text">Toca o haz clic en cualquier flor o carta para viajar a ella • Arrastra para orbitar •
+          Rueda para zoom</span>
+      </div>
+
+      <div class="stats-counter" id="stats-counter">
+        <span>🌻 <strong id="flower-count">0</strong> Flores</span>
+        <span class="sep">•</span>
+        <span>💌 <strong id="letter-count">0</strong> Cartas</span>
+      </div>
+    </footer>
+
+    <!-- Interactive Letter / Flower Modal (Glassmorphism & Friendship Style) -->
+    <div id="message-modal" class="modal-backdrop hidden">
+      <div class="letter-card">
+        <button id="btn-close-modal" class="close-card-btn" aria-label="Cerrar">&times;</button>
+
+        <div class="wax-seal">
+          <span class="seal-icon">🌻</span>
+        </div>
+
+        <div class="card-inner">
+          <span class="letter-date" id="modal-date">21 de Septiembre</span>
+          <h2 class="letter-title" id="modal-title">Para ti, una futura gran psicóloga</h2>
+
+          <div class="letter-separator">
+            <span>✦</span><span>🧠</span><span>✦</span>
+          </div>
+
+          <div class="letter-body" id="modal-body">
+            <!-- Content filled dynamically -->
+          </div>
+
+          <div class="letter-author" id="modal-author">
+            — Tu amigo leal ✨
+          </div>
+
+          <div class="card-footer">
+            <button id="btn-modal-confetti" class="card-action-btn">
+              <span>💛 Enviar Lluvia de Pétalos</span>
+            </button>
+            <button id="btn-next-item" class="card-action-btn secondary">
+              <span>Siguiente Flor ➜</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Custom Letter Modal -->
+    <div id="create-modal" class="modal-backdrop hidden">
+      <div class="letter-card create-card">
+        <button id="btn-close-create" class="close-card-btn" aria-label="Cerrar">&times;</button>
+
+        <div class="wax-seal">
+          <span class="seal-icon">✍️</span>
+        </div>
+
+        <div class="card-inner">
+          <h2 class="letter-title">Crear Carta Estelar</h2>
+          <p class="create-subtitle">Tu mensaje de aliento o amistad se convertirá en una carta dorada flotando en este
+            universo 3D.</p>
+
+          <form id="form-create-letter">
+            <div class="input-group">
+              <label for="input-recipient">Para quién es:</label>
+              <input type="text" id="input-recipient" placeholder="Ej: Para mi mejor amiga, futura psicóloga..."
+                required maxlength="40">
+            </div>
+
+            <div class="input-group">
+              <label for="input-title">Título del mensaje:</label>
+              <input type="text" id="input-title" placeholder="Ej: Ánimo colega, Eres brillante, No te rindas..."
+                required maxlength="60">
+            </div>
+
+            <div class="input-group">
+              <label for="input-message">Tu mensaje de ánimo o amistad:</label>
+              <textarea id="input-message" rows="4"
+                placeholder="Escribe aquí tus palabras de aliento, apoyo y buenos deseos..." required
+                maxlength="500"></textarea>
+            </div>
+
+            <div class="input-group">
+              <label for="input-sender">Firma (De parte de):</label>
+              <input type="text" id="input-sender" placeholder="Ej: Tu amigo incondicional ✨" required maxlength="40">
+            </div>
+
+            <div class="card-footer form-actions">
+              <button type="button" id="btn-cancel-create" class="card-action-btn secondary">Cancelar</button>
+              <button type="submit" class="card-action-btn primary">🌻 Lanzar al Universo</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Tooltip on 3D Hover -->
+    <div id="hover-tooltip" class="tooltip hidden">
+      <span class="tooltip-icon">✨</span>
+      <span class="tooltip-text" id="tooltip-text">Haz clic para descubrir</span>
+    </div>
+  </div>
+
+</body>
+
+</html>
