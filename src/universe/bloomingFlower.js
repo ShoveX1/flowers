@@ -418,7 +418,7 @@ export class BloomingSunflower {
     // ETAPA 3: Formación y Apertura del Capullo Floral (Floración)
     // ------------------------------------------------------------------------
     this.timeline.call(() => {
-      if (onProgressText) onProgressText('Y el amor florece en tonos amarillos...');
+      if (onProgressText) onProgressText('Y la fortaleza florece en tonos dorados...');
     }, null, '-=0.5');
 
     // Aparece el capullo en la punta
@@ -491,8 +491,8 @@ export class BloomingSunflower {
     // Cámara retrocede suavemente a la posición panorámica cósmica
     this.timeline.to(camera.position, {
       x: 0,
-      y: 32,
-      z: 75,
+      y: 26,
+      z: 70,
       duration: 3.2,
       ease: 'power3.inOut'
     }, '+=0.2');
@@ -536,7 +536,7 @@ export class BloomingSunflower {
     });
 
     // Posición panorámica
-    camera.position.set(0, 32, 75);
+    camera.position.set(0, 26, 70);
     controls.target.set(0, 0, 0);
 
     if (onComplete) onComplete();

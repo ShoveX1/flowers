@@ -33,7 +33,7 @@ export class UniverseScene {
 
     // Cámara de perspectiva
     this.camera = new THREE.PerspectiveCamera(55, this.width / this.height, 0.1, 1000);
-    this.initialPosition = new THREE.Vector3(0, 32, 75);
+    this.initialPosition = new THREE.Vector3(0, 26, 70);
     this.camera.position.copy(this.initialPosition);
 
     // Renderizador con transparencia y mapeo tonal cinematográfico
@@ -77,6 +77,7 @@ export class UniverseScene {
     this.controls.minDistance = 6;
     this.controls.maxDistance = 160;
     this.controls.maxPolarAngle = Math.PI / 1.7; // Evita mirar desde abajo del universo
+    this.controls.enablePan = false; // El centro focal siempre es la flor que nace
     this.controls.target.set(0, 0, 0);
   }
 
@@ -218,20 +219,23 @@ export class UniverseScene {
   }
 
   /**
-   * Vuelve a la vista panorámica amplia del cosmos
+   * Retorna suavemente la vista y el foco a la flor central que nace en (0, 0, 0)
    */
-  resetCamera() {
+  returnToCenter(duration = 1.8, onComplete = null) {
     this.stopTour();
     this.isFlying = true;
     this.controls.enabled = false;
 
     const currentTarget = this.controls.target.clone();
 
+    gsap.killTweensOf(this.camera.position);
+    gsap.killTweensOf(currentTarget);
+
     gsap.to(this.camera.position, {
       x: this.initialPosition.x,
       y: this.initialPosition.y,
       z: this.initialPosition.z,
-      duration: 2.0,
+      duration,
       ease: 'power2.inOut'
     });
 
@@ -239,7 +243,7 @@ export class UniverseScene {
       x: 0,
       y: 0,
       z: 0,
-      duration: 2.0,
+      duration,
       ease: 'power2.inOut',
       onUpdate: () => {
         this.controls.target.copy(currentTarget);
@@ -247,8 +251,16 @@ export class UniverseScene {
       onComplete: () => {
         this.isFlying = false;
         this.controls.enabled = true;
+        if (onComplete) onComplete();
       }
     });
+  }
+
+  /**
+   * Vuelve a la vista panorámica amplia del cosmos
+   */
+  resetCamera() {
+    this.returnToCenter(2.0);
   }
 
   /**

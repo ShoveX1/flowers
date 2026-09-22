@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Universo de Flores Amarillas 🌻✨ | Experiencia 3D Cósmica</title>
-  <meta name="description" content="Un universo mágico en 3D donde los planetas son flores amarillas, ramos y cartas con mensajes de amor y cariño.">
-  
+  <meta name="description"
+    content="Un universo mágico en 3D donde los planetas son flores amarillas, ramos y cartas con mensajes de amistad sincera, psicología y superación.">
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
 
-  <script type="module" crossorigin src="/assets/index-BThiu4mx.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-URXiVvxP.css">
+  <script type="module" crossorigin src="/assets/index-kpEwhTKT.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DZnSFyJC.css">
 </head>
+
 <body>
   <!-- 3D Canvas -->
   <canvas id="webgl"></canvas>
@@ -47,8 +52,8 @@
       <div class="logo-badge">
         <span class="sunflower-icon">🌻</span>
         <div class="logo-text">
-          <h1>Universo de Flores Amarillas</h1>
-          <p class="tagline">Donde cada flor es una estrella y cada carta un sentimiento</p>
+          <h1>Flores Amarillas</h1>
+          <p class="tagline">Pa cuando mi pollito??</p>
         </div>
       </div>
 
@@ -67,11 +72,6 @@
           <span class="btn-text">Paseo Guiado</span>
         </button>
 
-        <button id="btn-new-letter" class="glass-btn" title="Crear tu propia carta en el universo">
-          <span class="btn-icon">💌</span>
-          <span class="btn-text">Escribir Carta</span>
-        </button>
-
         <button id="btn-replay-bloom" class="glass-btn" title="Ver crecer el girasol desde la semilla">
           <span class="btn-icon">🌱</span>
           <span class="btn-text">Ver Florecer</span>
@@ -87,7 +87,8 @@
     <footer class="bottom-bar hud-element hidden-hud">
       <div class="hint-pill">
         <span class="pulse-dot"></span>
-        <span id="hint-text">Toca o haz clic en cualquier flor o carta para viajar a ella • Arrastra para orbitar • Rueda para zoom</span>
+        <span id="hint-text">Toca o haz clic en cualquier flor o carta para viajar a ella • Arrastra para orbitar •
+          Rueda para zoom</span>
       </div>
 
       <div class="stats-counter" id="stats-counter">
@@ -97,21 +98,21 @@
       </div>
     </footer>
 
-    <!-- Interactive Letter / Flower Modal (Glassmorphism & Romantic Style) -->
+    <!-- Interactive Letter / Flower Modal (Glassmorphism & Friendship Style) -->
     <div id="message-modal" class="modal-backdrop hidden">
       <div class="letter-card">
         <button id="btn-close-modal" class="close-card-btn" aria-label="Cerrar">&times;</button>
-        
+
         <div class="wax-seal">
           <span class="seal-icon">🌻</span>
         </div>
 
         <div class="card-inner">
           <span class="letter-date" id="modal-date">21 de Septiembre</span>
-          <h2 class="letter-title" id="modal-title">Para ti, luz de mi universo</h2>
-          
+          <h2 class="letter-title" id="modal-title">Para ti, una futura gran psicóloga</h2>
+
           <div class="letter-separator">
-            <span>✦</span><span>🌻</span><span>✦</span>
+            <span>✦</span><span>🧠</span><span>✦</span>
           </div>
 
           <div class="letter-body" id="modal-body">
@@ -119,7 +120,7 @@
           </div>
 
           <div class="letter-author" id="modal-author">
-            — Con amor infinito ✨
+            — Tu amigo leal ✨
           </div>
 
           <div class="card-footer">
@@ -138,34 +139,39 @@
     <div id="create-modal" class="modal-backdrop hidden">
       <div class="letter-card create-card">
         <button id="btn-close-create" class="close-card-btn" aria-label="Cerrar">&times;</button>
-        
+
         <div class="wax-seal">
           <span class="seal-icon">✍️</span>
         </div>
 
         <div class="card-inner">
           <h2 class="letter-title">Crear Carta Estelar</h2>
-          <p class="create-subtitle">Tu dedicatoria se convertirá en una carta dorada flotando en este universo 3D.</p>
+          <p class="create-subtitle">Tu mensaje de aliento o amistad se convertirá en una carta dorada flotando en este
+            universo 3D.</p>
 
           <form id="form-create-letter">
             <div class="input-group">
               <label for="input-recipient">Para quién es:</label>
-              <input type="text" id="input-recipient" placeholder="Ej: Mi persona favorita, Flor, Valentín..." required maxlength="40">
+              <input type="text" id="input-recipient" placeholder="Ej: Para mi mejor amiga, futura psicóloga..."
+                required maxlength="40">
             </div>
 
             <div class="input-group">
               <label for="input-title">Título del mensaje:</label>
-              <input type="text" id="input-title" placeholder="Ej: Flores amarillas para ti..." required maxlength="60">
+              <input type="text" id="input-title" placeholder="Ej: Ánimo colega, Eres brillante, No te rindas..."
+                required maxlength="60">
             </div>
 
             <div class="input-group">
-              <label for="input-message">Tu dedicatoria o poema:</label>
-              <textarea id="input-message" rows="4" placeholder="Escribe aquí tus palabras más bonitas..." required maxlength="500"></textarea>
+              <label for="input-message">Tu mensaje de ánimo o amistad:</label>
+              <textarea id="input-message" rows="4"
+                placeholder="Escribe aquí tus palabras de aliento, apoyo y buenos deseos..." required
+                maxlength="500"></textarea>
             </div>
 
             <div class="input-group">
               <label for="input-sender">Firma (De parte de):</label>
-              <input type="text" id="input-sender" placeholder="Ej: Tu persona favorita ✨" required maxlength="40">
+              <input type="text" id="input-sender" placeholder="Ej: Tu amigo incondicional ✨" required maxlength="40">
             </div>
 
             <div class="card-footer form-actions">
@@ -185,4 +191,5 @@
   </div>
 
 </body>
+
 </html>

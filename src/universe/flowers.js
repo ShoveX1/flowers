@@ -154,70 +154,33 @@ export function createSunflower(scale = 1.0, options = {}) {
  * Crea el GRAN RAMO CELESTIAL en el centro del universo
  */
 export function createGrandBouquet() {
-  const bouquet = new THREE.Group();
+  const ringsGroup = new THREE.Group();
 
-  // Flor principal reina en la cima
-  const mainFlower = createSunflower(1.5, { hasStem: false });
-  mainFlower.position.set(0, 1.2, 0);
-  bouquet.add(mainFlower);
-
-  // Corona de 8 flores rodeándola
-  const count = 8;
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2;
-    const flower = createSunflower(1.05, { hasStem: false });
-    const radius = 2.8;
-    flower.position.set(
-      Math.cos(angle) * radius,
-      0.3 + Math.sin(i * 2) * 0.4,
-      Math.sin(angle) * radius
-    );
-    // Orientar hacia afuera
-    flower.rotation.x = Math.sin(angle) * 0.6;
-    flower.rotation.y = -Math.cos(angle) * 0.6;
-    bouquet.add(flower);
-  }
-
-  // Capa inferior de 6 flores más
-  for (let j = 0; j < 6; j++) {
-    const angle = (j / 6) * Math.PI * 2 + 0.5;
-    const flower = createSunflower(0.85, { hasStem: false });
-    const radius = 4.2;
-    flower.position.set(
-      Math.cos(angle) * radius,
-      -1.4,
-      Math.sin(angle) * radius
-    );
-    flower.rotation.x = Math.sin(angle) * 0.9;
-    flower.rotation.y = -Math.cos(angle) * 0.9;
-    bouquet.add(flower);
-  }
-
-  // Envoltura o Lazo Dorado Cósmico (Anillo helicoidal)
-  const ringGeom = new THREE.TorusGeometry(5.2, 0.12, 16, 64);
+  // Envoltura o Lazo Dorado Cósmico (Anillos que enmarcan la flor central naciente)
+  const ringGeom = new THREE.TorusGeometry(6.2, 0.14, 16, 64);
   const ringMat = new THREE.MeshStandardMaterial({
     color: 0xFEF08A,
     emissive: 0xFACC15,
-    emissiveIntensity: 0.6,
+    emissiveIntensity: 0.5,
     metalness: 0.8,
     roughness: 0.2
   });
   const ring = new THREE.Mesh(ringGeom, ringMat);
   ring.rotation.x = Math.PI / 2.3;
-  bouquet.add(ring);
+  ringsGroup.add(ring);
 
   // Segundo anillo cruzado estilo saturniano
   const ring2 = new THREE.Mesh(ringGeom, ringMat);
   ring2.rotation.x = -Math.PI / 2.8;
   ring2.rotation.y = 0.4;
-  ring2.scale.set(1.2, 1.2, 1.2);
-  bouquet.add(ring2);
+  ring2.scale.set(1.18, 1.18, 1.18);
+  ringsGroup.add(ring2);
 
-  // Luz dorada poderosa en el centro del ramo
-  const centerLight = new THREE.PointLight(0xFACC15, 3.5, 45);
-  bouquet.add(centerLight);
+  // Luz dorada sutil en el centro
+  const centerLight = new THREE.PointLight(0xFACC15, 2.2, 35);
+  ringsGroup.add(centerLight);
 
-  return bouquet;
+  return ringsGroup;
 }
 
 /**
@@ -225,83 +188,64 @@ export function createGrandBouquet() {
  */
 export function createFlowerUniverse(scene) {
   const interactiveFlowers = [];
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false });
 
-  // 1. EL GRAN RAMO CENTRAL (Foco central del cosmos)
+  // Anillos cósmicos que rodean el centro del universo
   const grandBouquet = createGrandBouquet();
   grandBouquet.position.set(0, 0, 0);
   scene.add(grandBouquet);
-
-  // Caja de colisión invisible para facilitar clic en el ramo
-  const bouquetHitGeom = new THREE.SphereGeometry(5.5, 16, 16);
-  const hitMat = new THREE.MeshBasicMaterial({ visible: false });
-  const bouquetHit = new THREE.Mesh(bouquetHitGeom, hitMat);
-  grandBouquet.add(bouquetHit);
-
-  const bouquetData = {
-    id: 'flower-grand-bouquet',
-    title: 'El Gran Ramo Celestial 🌻👑',
-    date: '21 de Septiembre — Día de las Flores Amarillas',
-    type: 'bouquet',
-    body: 'Este ramo infinito reúne millones de destellos dorados del cosmos. Dicen que regalar flores amarillas es regalar luz, alegría pura y la promesa de permanecer juntos en cada primavera de la vida.',
-    author: 'El Universo Entero Para Ti ✨',
-    mesh: bouquetHit,
-    targetPosition: new THREE.Vector3(0, 0, 0),
-    cameraOffset: new THREE.Vector3(0, 4, 15)
-  };
-  bouquetHit.userData = bouquetData;
-  interactiveFlowers.push(bouquetData);
 
   // 2. PLANETAS FLORES AMARILLAS EN ÓRBITA
   const celestialFlowersConfig = [
     {
       id: 'flower-1',
-      title: 'Girasol de la Esperanza 🌻',
+      title: 'Flor de la Resiliencia 🌻',
       scale: 1.3,
       radius: 24,
       angle: 0.3,
       y: 4,
-      body: 'Así como el girasol nunca deja de buscar al sol, mi corazón siempre encuentra su dirección hacia ti. Gracias por ser esa luz cálida que ilumina cualquier día gris.',
-      author: 'Con admiración infinita'
+      body: 'Un recordatorio rápido: cada tema difícil y cada parcial superado te acerca más a tu meta. ¡Tú puedes con esto!',
+      author: 'Tu amigo'
     },
     {
       id: 'flower-2',
-      title: 'Flor de la Alegría Eterna 💛',
+      title: 'Flor de la Vocación 💛',
       scale: 1.1,
       radius: 36,
       angle: 1.8,
       y: -6,
-      body: 'El amarillo es el color de tu risa, de los días soleados a tu lado y de los recuerdos felices que guardo como el tesoro más preciado de este universo.',
-      author: 'Por siempre tu refugio'
+      body: 'Tienes la empatía y la paciencia necesarias para ser una gran psicóloga. Mucho éxito con tus materias.',
+      author: 'Buena vibra siempre'
     },
     {
       id: 'flower-3',
-      title: 'Girasol del Amor Radiante 🌟',
+      title: 'Girasol del Descanso 🌟',
       scale: 1.4,
       radius: 48,
       angle: 3.2,
       y: 8,
-      body: 'Te regalo estas flores no solo para cumplir una tradición, sino para recordarte lo extraordinario que es coincidir contigo en esta inmensidad del tiempo y el espacio.',
-      author: 'De quien más te quiere'
+      body: 'Acuérdate de dormir bien y tomarte tus pausas. La salud mental también aplica para los que estudian psicología.',
+      author: 'Tómate un respiro'
     },
     {
       id: 'flower-4',
-      title: 'Margarita de la Paz Dorada 🌼',
+      title: 'Margarita del Enfoque 🌼',
       scale: 1.0,
       radius: 60,
       angle: 4.6,
       y: -5,
-      body: 'Que la serenidad y la dulzura de estos pétalos amarillos te acompañen en cada paso. Eres magia, calma y primavera viva.',
-      author: 'Un suspiro cósmico'
+      body: 'Confía en tu capacidad y en todo lo que vienes aprendiendo. ¡A romperla en este semestre!',
+      author: 'Con todo'
     },
     {
       id: 'flower-5',
-      title: 'Girasol de los Sueños Cumplidos ✨',
+      title: 'Girasol de la Meta 🧠✨',
       scale: 1.25,
       radius: 72,
       angle: 5.7,
       y: 7,
-      body: 'Que cada pétalo de este universo sea un deseo que florece para ti. Mereces todos los cielos despejados y todos los soles del mundo.',
-      author: 'Para la persona más especial'
+      body: 'Menos estrés y más café. Vas por muy buen camino para sacar el título. ¡No te rindas jamás!',
+      author: 'Tu amigo'
     }
   ];
 

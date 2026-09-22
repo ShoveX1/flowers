@@ -17,11 +17,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const stars = createCosmicStars(sceneController.scene, 2200);
   const petals = createDriftingPetals(sceneController.scene, 150);
 
-  // 2. Girasol Héroe que nace desde la semilla
+  // 2. Girasol Héroe que nace desde la semilla (Foco central del cosmos)
   const bloomingSunflower = new BloomingSunflower(sceneController.scene);
-  bloomingSunflower.group.position.set(0, -3.5, 2.5);
+  bloomingSunflower.group.position.set(0, -7.5, 0);
 
-  // 3. Añadir las flores amarillas y el Gran Ramo central
+  // 3. Añadir los anillos cósmicos y flores en órbita
   const flowerSystem = createFlowerUniverse(sceneController.scene);
 
   // 4. Añadir las cartas cósmicas flotantes
@@ -35,15 +35,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const heroFlowerData = {
     id: 'hero-blooming-flower',
-    title: 'Girasol de la Vida 🌻💛',
-    date: '21 de Septiembre — Florecido para ti',
+    title: 'Girasol Central 🌻🧠',
+    date: '21 de Septiembre',
     type: 'flower',
-    body: 'Este girasol nació de una pequeña semilla dorada en este rincón del universo. Es el símbolo de que el amor, el cariño y las promesas más sinceras siempre encuentran la forma de crecer, elevarse y florecer hacia la luz.',
-    author: 'Sembrado con amor eterno ✨',
+    body: 'Flores amarillas para desearte mucho éxito en la carrera. Estudia con ganas, pero sin descuidarte. ¡Vas a ser una psicóloga genial!',
+    author: 'Tu amigo ✨',
     mesh: heroHitMesh,
     group: bloomingSunflower.flowerHead,
-    targetPosition: new THREE.Vector3(0, 4, 2.5),
-    cameraOffset: new THREE.Vector3(0, 4, 12)
+    targetPosition: new THREE.Vector3(0, 0, 0),
+    cameraOffset: new THREE.Vector3(0, 2, 13)
   };
   heroHitMesh.userData = heroFlowerData;
 
@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-date').textContent = itemData.date || '21 de Septiembre';
     document.getElementById('modal-title').textContent = itemData.title;
     document.getElementById('modal-body').textContent = itemData.body;
-    document.getElementById('modal-author').textContent = `— ${itemData.author || 'Con amor'}`;
+    document.getElementById('modal-author').textContent = `— ${itemData.author || 'Tu amigo sincero'}`;
 
     // Disparar sutil lluvia de confeti dorado
     triggerPetalConfetti();
@@ -110,6 +110,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function closeModal() {
     modal.classList.add('hidden');
+    if (!sceneController.tourActive) {
+      sceneController.returnToCenter(1.6);
+    }
   }
 
   btnCloseModal.addEventListener('click', closeModal);
@@ -162,12 +165,14 @@ window.addEventListener('DOMContentLoaded', () => {
     createModal.classList.add('hidden');
   }
 
-  btnNewLetter.addEventListener('click', openCreateModal);
-  btnCloseCreate.addEventListener('click', closeCreateModal);
-  btnCancelCreate.addEventListener('click', closeCreateModal);
-  createModal.addEventListener('click', (e) => {
-    if (e.target === createModal) closeCreateModal();
-  });
+  if (btnNewLetter && createModal) {
+    btnNewLetter.addEventListener('click', openCreateModal);
+    btnCloseCreate?.addEventListener('click', closeCreateModal);
+    btnCancelCreate?.addEventListener('click', closeCreateModal);
+    createModal.addEventListener('click', (e) => {
+      if (e.target === createModal) closeCreateModal();
+    });
+  }
 
   formCreateLetter.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -183,7 +188,7 @@ window.addEventListener('DOMContentLoaded', () => {
       recipient,
       title,
       message,
-      sender: sender || 'Anónimo con amor'
+      sender: sender || 'Un amigo con aprecio y admiración'
     });
 
     // Agregar a los interactivos
